@@ -264,3 +264,28 @@ End If
 End If
 
 End Sub
+
+Private Sub MMControl1_PlayClick(Cancel As Integer)
+Play
+ProgressOke
+Label2.Caption = List1
+Timer2.Enabled = True
+End Sub
+
+Private Sub MMControl1_StopClick(Cancel As Integer)
+MMControl1.Refresh
+MMControl1.Command = "Close"
+Kode = True
+Timer2.Enabled = False
+End Sub
+
+Sub ProgressOke()
+Slider1.Min = 0
+Slider1.Max = Val(MMControl1.TrackLength)
+End Sub
+
+
+Private Sub Timer1_Timer()
+On Error Resume Next
+Slider1.Value = MMControl1.Position
+End Sub
