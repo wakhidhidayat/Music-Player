@@ -12,6 +12,13 @@ Begin VB.Form Form1
    ScaleHeight     =   5160
    ScaleWidth      =   11055
    StartUpPosition =   3  'Windows Default
+   Begin VB.ListBox List2 
+      Height          =   1815
+      Left            =   8040
+      TabIndex        =   13
+      Top             =   1680
+      Width           =   1815
+   End
    Begin VB.Timer Timer5 
       Left            =   1440
       Top             =   0
@@ -20,7 +27,7 @@ Begin VB.Form Form1
       Caption         =   "Clear"
       Height          =   495
       Left            =   7800
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   4200
       Width           =   1215
    End
@@ -28,7 +35,7 @@ Begin VB.Form Form1
       Caption         =   "Repeat"
       Height          =   495
       Left            =   9000
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   4200
       Width           =   1215
    End
@@ -43,13 +50,6 @@ Begin VB.Form Form1
    Begin VB.Timer Timer3 
       Left            =   720
       Top             =   0
-   End
-   Begin VB.ListBox List2 
-      Height          =   1815
-      Left            =   8040
-      TabIndex        =   11
-      Top             =   1680
-      Width           =   1815
    End
    Begin VB.ListBox List1 
       Height          =   2595
@@ -109,6 +109,10 @@ Begin VB.Form Form1
       _ExtentX        =   6588
       _ExtentY        =   661
       _Version        =   393216
+      PrevEnabled     =   -1  'True
+      PlayEnabled     =   -1  'True
+      BackEnabled     =   -1  'True
+      StopEnabled     =   -1  'True
       DeviceType      =   ""
       FileName        =   ""
    End
@@ -201,7 +205,7 @@ End Sub
 
 Private Sub Dir1_Change()
 File1.Path = Dir1.Path
-File1.Name = "*.mp3"
+File1.FileName = "*.mp3"
 End Sub
 
 Private Sub Drive1_Change()
@@ -242,7 +246,7 @@ If Kode = True Then Exit Sub
 If MMControl1.TrackLength = MMControl1.Position Then
     If Label3.Caption = Label5.Caption Then
         If Command2.Caption = "Repeat" Then
-            If Label5.Caption = 1 Then
+            If Label5.Caption = "1" Then
                 MMControl1.Command = "Close"
                 Timer2.Enabled = False
             Else
@@ -289,3 +293,31 @@ Private Sub Timer1_Timer()
 On Error Resume Next
 Slider1.Value = MMControl1.Position
 End Sub
+
+Private Sub Timer2_Timer()
+If mldetik = 10 Then
+    detik = detik + 1
+    mldetik = 0
+End If
+If detik = 60 Then
+    menit = menit + 1
+    detik = 0
+End If
+If menit = 60 Then
+    Jam = Jam + 1
+    menit = 0
+End If
+Label6.Caption = Jam & ":" & menit & ":" & detik
+mldetik = mldetik + 1
+End Sub
+
+Private Sub Timer3_Timer()
+If Me.Top <= 1000 Then
+    Timer3.Interval = 0
+Else
+    Me.Top = Me.Top - 100
+End If
+
+
+End Sub
+
